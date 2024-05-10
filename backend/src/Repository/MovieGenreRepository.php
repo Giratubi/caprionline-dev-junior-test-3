@@ -23,12 +23,12 @@ class MovieGenreRepository extends ServiceEntityRepository
 
     public function findMoviesByGenre($genreId)
     {
-        return $this->createQueryBuilder('mg')
-            ->innerJoin('mg.movie', 'm')
-            ->andWhere('mg.genre = :genreId')
-            ->setParameter('genreId', $genreId)
-            ->getQuery()
-            ->getResult();
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery(
+            "SELECT m FROM App\Entity\Movie m JOIN m.movieGenres mg JOIN mg.genre g WHERE g.id = :genreId"
+        )->setParameter('genreId', $genreId);
+
+        return $query->getResult();
     }
 
     //    /**

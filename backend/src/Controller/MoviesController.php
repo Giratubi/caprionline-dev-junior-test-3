@@ -39,9 +39,8 @@ class MoviesController extends AbstractController
     public function getMoviesByGenre(int $genreId): JsonResponse
     {
         $movies = $this->movieGenreRepository->findMoviesByGenre($genreId);
-        dump($movies);
         if (empty($movies)) {
-            return $this->json(['message' => 'No movies found for this genre'], 404);
+            return $this->json([], 200);
         }
         return $this->json($movies, context: ['groups' => ['default']]);
     }
